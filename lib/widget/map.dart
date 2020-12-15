@@ -12,6 +12,7 @@ class Mapa extends StatefulWidget {
 
 class _Mapa extends State<Mapa> {
   Position _currentPosition;
+  CameraPosition _posicion;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +31,14 @@ class _Mapa extends State<Mapa> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
-              initialCameraPosition: _primeraPosicion(),
+              initialCameraPosition: _posicion,
+            ),
+            GoogleMap(
+              onMapCreated: _onMapCreated,
+              initialCameraPosition: _posicion,
             ),
             FloatingActionButton(
-              onPressed: _getCurrentLocation(),
+              onPressed: _primeraPosicion(),
               child: Icon(Icons.navigation),
               backgroundColor: Colors.green,
             )
@@ -41,11 +46,13 @@ class _Mapa extends State<Mapa> {
         ));
   }
 
-  CameraPosition _primeraPosicion() {
+  _primeraPosicion() {
     _getCurrentLocation();
     CameraPosition _initialPosition = CameraPosition(
         target: LatLng(_currentPosition.latitude, _currentPosition.longitude));
-    return _initialPosition;
+    setState(() {
+      _posicion = _initialPosition;
+    });
   }
 
   _getCurrentLocation() {
