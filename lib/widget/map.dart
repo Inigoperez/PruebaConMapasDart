@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:prueba_mapa/providers/GPS.dart';
 
 class Mapa extends StatefulWidget {
   Mapa({Key key}) : super(key: key);
@@ -11,11 +12,9 @@ class Mapa extends StatefulWidget {
 }
 
 class _Mapa extends State<Mapa> {
-  Position _currentPosition;
-  CameraPosition _posicion;
-
   @override
   Widget build(BuildContext context) {
+    final posicion = Provider.of<GPS>(context);
     Completer<GoogleMapController> _controller = Completer();
 
     void _onMapCreated(GoogleMapController controller) {
@@ -31,42 +30,9 @@ class _Mapa extends State<Mapa> {
           children: <Widget>[
             GoogleMap(
               onMapCreated: _onMapCreated,
-              initialCameraPosition: _posicion,
-            ),
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: _posicion,
-            ),
-            FloatingActionButton(
-              onPressed: _primeraPosicion(),
-              child: Icon(Icons.navigation),
-              backgroundColor: Colors.green,
+              initialCameraPosition: posicion.posicion,
             )
           ],
         ));
-  }
-
-  _primeraPosicion() {
-    _getCurrentLocation();
-    CameraPosition _initialPosition = CameraPosition(
-        target: LatLng(_currentPosition.latitude, _currentPosition.longitude));
-    setState(() {
-      _posicion = _initialPosition;
-    });
-  }
-
-  _getCurrentLocation() {
-    final Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
-
-    geolocator
-        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
-        .then((Position position) {
-      setState(() {
-        _currentPosition = position;
-      });
-    }).catchError((e) {
-      print(e);
-    });
-    print(_currentPosition);
   }
 }
