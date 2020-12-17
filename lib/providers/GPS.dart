@@ -6,12 +6,13 @@ class GPS with ChangeNotifier {
   CameraPosition _posicion;
   Geolocator geolocator = Geolocator()..forceAndroidLocationManager;
 
-  @override
-  void initState() {
+  initState() {
     actualizar();
   }
 
-  get posicion {
+  // ignore: non_constant_identifier_names
+  CameraPosition get mi_posicion {
+    print("-----get---" + _posicion.toString());
     return _posicion;
   }
 
@@ -19,8 +20,25 @@ class GPS with ChangeNotifier {
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
-      _posicion =
-          CameraPosition(target: LatLng(position.latitude, position.longitude));
+      _posicion = CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 13.151926040649414);
+      print("-----actualizar---" + _posicion.toString());
+    }).catchError((e) {
+      print(e);
+    });
+    notifyListeners();
+  }
+
+  CameraPosition inicio() {
+    geolocator
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
+        .then((Position position) {
+      _posicion = CameraPosition(
+          target: LatLng(position.latitude, position.longitude),
+          zoom: 13.151926040649414);
+      print("-----actualizar---" + _posicion.toString());
+      return mi_posicion;
     }).catchError((e) {
       print(e);
     });

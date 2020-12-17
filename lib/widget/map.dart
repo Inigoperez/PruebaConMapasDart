@@ -22,17 +22,28 @@ class _Mapa extends State<Mapa> {
     }
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Primera prueba mapas'),
-          centerTitle: true,
-        ),
-        body: Stack(
-          children: <Widget>[
-            GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: posicion.posicion,
-            )
-          ],
-        ));
+      appBar: AppBar(
+        title: Text("Mapa"),
+        centerTitle: true,
+      ),
+      body: Stack(
+        children: <Widget>[
+          GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: posicion.inicio(),
+            /*initialCameraPosition: CameraPosition(
+              target: LatLng(43.24687, -1.991704),
+              zoom: 13.151926040649414,
+            ),*/
+            mapType: MapType.normal,
+          ),
+          FloatingActionButton(
+            onPressed: () => posicion.actualizar(),
+            child: Icon(Icons.navigation),
+            backgroundColor: Colors.green,
+          ),
+        ],
+      ),
+    );
   }
 }
