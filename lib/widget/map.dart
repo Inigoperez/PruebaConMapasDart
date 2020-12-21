@@ -41,7 +41,6 @@ class _Mapa extends State<Mapa> {
       ),
       body: Stack(
         children: <Widget>[
-          posicion.actualizar(),
           GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: isNullLocation(),
