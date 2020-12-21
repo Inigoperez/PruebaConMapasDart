@@ -15,10 +15,23 @@ class _Mapa extends State<Mapa> {
   @override
   Widget build(BuildContext context) {
     final posicion = Provider.of<GPS>(context);
-    Completer<GoogleMapController> _controller = Completer();
 
+    Completer<GoogleMapController> _controller = Completer();
+    print("dentro de widget --1--");
+    print(posicion.mi_posicion);
     void _onMapCreated(GoogleMapController controller) {
       _controller.complete(controller);
+    }
+
+    CameraPosition isNullLocation() {
+      print("dentro del isNullLocation --2--");
+      print(posicion.mi_posicion);
+      if (posicion.mi_posicion == null) {
+        posicion.actualizar();
+        return posicion.mi_posicion;
+      } else {
+        return posicion.mi_posicion;
+      }
     }
 
     return Scaffold(
@@ -28,9 +41,10 @@ class _Mapa extends State<Mapa> {
       ),
       body: Stack(
         children: <Widget>[
+          posicion.actualizar(),
           GoogleMap(
             onMapCreated: _onMapCreated,
-            initialCameraPosition: posicion.inicio(),
+            initialCameraPosition: isNullLocation(),
             /*initialCameraPosition: CameraPosition(
               target: LatLng(43.24687, -1.991704),
               zoom: 13.151926040649414,
