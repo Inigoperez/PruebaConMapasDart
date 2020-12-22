@@ -19,21 +19,15 @@ class _Mapa extends State<Mapa> {
     print("dentro de widget --line 20--");
     print(posicion.mi_posicion);
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Mapa"),
-        centerTitle: true,
-      ),
-      body: Stack(
-        children: <Widget>[
-          _widgetMapa(posicion.mi_posicion),
-          FloatingActionButton(
-            onPressed: () => posicion.actualizar(),
-            child: Icon(Icons.navigation),
-            backgroundColor: Colors.green,
-          ),
-        ],
-      ),
+    return Stack(
+      children: <Widget>[
+        _widgetMapa(posicion.mi_posicion),
+        FloatingActionButton(
+          onPressed: () => posicion.actualizar(),
+          child: Icon(Icons.navigation),
+          backgroundColor: Colors.green,
+        ),
+      ],
     );
   }
 

@@ -18,15 +18,16 @@ class GPS with ChangeNotifier {
   get mi_posicion {
     print("-----get---" + _posicion.toString());
     if (_posicion == null) {
-      setState(CameraPosition(
-          target: LatLng(40.463667, -3.74922), zoom: 5.151926040649414));
+      /*setState(CameraPosition(
+          target: LatLng(40.463667, -3.74922), zoom: 5.151926040649414));*/
+      actualizar();
       return _posicion;
     } else {
       return _posicion;
     }
   }
 
-  actualizar() {
+  Future<CameraPosition> actualizar() async {
     geolocator
         .getCurrentPosition(desiredAccuracy: LocationAccuracy.best)
         .then((Position position) {
@@ -34,6 +35,7 @@ class GPS with ChangeNotifier {
           target: LatLng(position.latitude, position.longitude),
           zoom: 13.151926040649414));
       print("-----actualizar---" + _posicion.toString());
+      return _posicion;
     }).catchError((e) {
       print(e);
     });

@@ -18,7 +18,13 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: Mapa(),
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Mapa"),
+            centerTitle: true,
+          ),
+          body: Mapa(),
+        ),
       ),
     );
   }
