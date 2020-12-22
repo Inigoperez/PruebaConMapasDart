@@ -16,23 +16,8 @@ class _Mapa extends State<Mapa> {
   Widget build(BuildContext context) {
     final posicion = Provider.of<GPS>(context);
 
-    Completer<GoogleMapController> _controller = Completer();
-    print("dentro de widget --1--");
+    print("dentro de widget --line 20--");
     print(posicion.mi_posicion);
-    void _onMapCreated(GoogleMapController controller) {
-      _controller.complete(controller);
-    }
-
-    CameraPosition isNullLocation() {
-      print("dentro del isNullLocation --2--");
-      print(posicion.mi_posicion);
-      if (posicion.mi_posicion == null) {
-        posicion.actualizar();
-        return posicion.mi_posicion;
-      } else {
-        return posicion.mi_posicion;
-      }
-    }
 
     return Scaffold(
       appBar: AppBar(
@@ -41,15 +26,7 @@ class _Mapa extends State<Mapa> {
       ),
       body: Stack(
         children: <Widget>[
-          GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: isNullLocation(),
-            /*initialCameraPosition: CameraPosition(
-              target: LatLng(43.24687, -1.991704),
-              zoom: 13.151926040649414,
-            ),*/
-            mapType: MapType.normal,
-          ),
+          _widgetMapa(posicion.mi_posicion),
           FloatingActionButton(
             onPressed: () => posicion.actualizar(),
             child: Icon(Icons.navigation),
@@ -57,6 +34,19 @@ class _Mapa extends State<Mapa> {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _widgetMapa(CameraPosition position) {
+    Completer<GoogleMapController> _controller = Completer();
+    void _onMapCreated(GoogleMapController controller) {
+      _controller.complete(controller);
+    }
+
+    return GoogleMap(
+      onMapCreated: _onMapCreated,
+      initialCameraPosition: position,
+      mapType: MapType.normal,
     );
   }
 }

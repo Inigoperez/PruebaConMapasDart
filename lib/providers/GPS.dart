@@ -17,7 +17,13 @@ class GPS with ChangeNotifier {
   // ignore: non_constant_identifier_names
   get mi_posicion {
     print("-----get---" + _posicion.toString());
-    return _posicion;
+    if (_posicion == null) {
+      setState(CameraPosition(
+          target: LatLng(40.463667, -3.74922), zoom: 5.151926040649414));
+      return _posicion;
+    } else {
+      return _posicion;
+    }
   }
 
   actualizar() {
